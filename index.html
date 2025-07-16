@@ -56,7 +56,7 @@
         <div class="main-layout">
             <!-- Produk -->
             <section id="menu-produk-section">
-                <h2 class="section-title">Daftar Menu HARINFOOD</h2>
+                <h1 style="font-size:25px" class="section-title">DAFTAR MENU HARINFOOD</h1>
                 <div class="search-barcode-input">
                     <input type="text" id="product-search-barcode" placeholder="Cari produk atau scan barcode..." autofocus>
                     <span id="search-barcode-feedback" class="feedback-message"></span>
@@ -85,7 +85,6 @@
                     <input type="number" id="nominal-pembayaran" min="0" value="0">
                     <p>Kembalian: <span id="kembalian-display">Rp 0</span></p>
                 </div>
-                <!-- Diskon hanya kasir -->
                 <div class="diskon-section-inline" id="diskon-section" style="display:none;">
                     <label for="nama-diskon">Nama Diskon:</label>
                     <input type="text" id="nama-diskon" placeholder="Contoh: Promo Juli" value="">
@@ -97,7 +96,6 @@
                     <textarea id="keterangan-pesanan" rows="2"></textarea>
                 </div>
                 <div id="payment-choice-buttons" class="payment-options">
-                    <button id="pesan-whatsapp-pelanggan" class="btn-payment btn-whatsapp"><i class="fab fa-whatsapp"></i> Pesan</button>
                     <button id="btn-bayar-qris" class="btn-payment btn-qris"><i class="fas fa-qrcode"></i> QRIS</button>
                 </div>
                 <button id="cetak-struk-button" class="btn-action btn-print-green" style="display: none; margin-top: 15px;"><i class="fas fa-print"></i> Cetak Struk</button>
@@ -115,7 +113,6 @@
         <footer>
             <p>&copy; 2025 HARINFOOD. All Rights Reserved.</p>
         </footer>
-        <!-- FAB BUTTONS KASIR -->
         <div id="kasir-fabs" style="display: none;">
             <div class="fab-button fab-print" id="print-fab" title="Cetak Struk">
                 <i class="fas fa-print"></i>
@@ -129,11 +126,19 @@
             <div class="fab-button fab-clear" id="clear-cart-fab" title="Bersihkan Keranjang">
                 <i class="fas fa-trash"></i>
             </div>
+            <div class="fab-button fab-cart" id="cart-fab" title="Keranjang Belanjaan">
+                <i class="fas fa-shopping-cart"></i>
+            </div>
+            <div class="fab-button fab-dapur" id="dapur-fab" title="Cetak Struk Dapur">
+                <i class="fas fa-utensils"></i>
+            </div>
         </div>
-        <!-- Modal Pesanan Manual -->
+        <button id="floating-pesan-whatsapp" class="fab-pesan-whatsapp">
+            <i class="fab fa-whatsapp" style="font-size: 24px;"></i> <span class="fab-pesan-text">TEKAN DISINI UNTUK MEMESAN</span>
+        </button>
         <div id="manualOrderModal" class="modal">
             <div class="modal-content">
-                <span class="close-button" onclick="closeManualOrderModal()">&times;</span>
+                <span class="close-button" onclick="manualOrderModal.style.display='none'">&times;</span>
                 <h2 class="modal-title">Tambah Pesanan Manual</h2>
                 <label for="manualProductName">Nama Produk:</label>
                 <input type="text" id="manualProductName" required>
@@ -142,6 +147,49 @@
                 <label for="manualProductQty">Kuantitas:</label>
                 <input type="number" id="manualProductQty" min="1" value="1" required>
                 <button onclick="addManualOrderItem()">Tambahkan ke Keranjang</button>
+            </div>
+        </div>
+        <div id="dapurStrukModal" class="modal">
+            <div class="modal-content">
+                <span class="close-button" onclick="dapurStrukModal.style.display='none'">&times;</span>
+                <h2 class="modal-title">Struk Pelanggan</h2>
+                <label for="dapurBodyInput">Isi Pesanan/Keterangan untuk di cetak ulang:</label>
+                <textarea id="dapurBodyInput" rows="7" style="width:100%;"></textarea>
+                <button onclick="printDapurStruk()">Cetak Struk Pelanggan</button>
+            </div>
+        </div>
+        <div id="popup-keranjang" style="display:none;">
+            <div class="popup-keranjang-content">
+                <button id="close-popup-keranjang" title="Tutup" style="position:absolute;right:10px;top:10px;font-size:1.5em;background:none;border:none;cursor:pointer;">&times;</button>
+                <h2 style="margin-top:0;margin-bottom:10px;"><i class="fas fa-shopping-cart"></i> Keranjang Belanjaan</h2>
+                <div style="max-height:240px;overflow:auto;">
+                    <table class="popup-keranjang-table" style="width:100%;border-collapse:collapse;">
+                        <thead>
+                            <tr>
+                                <th>Nama</th>
+                                <th>Qty</th>
+                                <th>Subtotal</th>
+                                <th>Hapus</th>
+                            </tr>
+                        </thead>
+                        <tbody id="popup-keranjang-items"></tbody>
+                    </table>
+                </div>
+                <div style="margin-top:10px;">
+                    <strong>Total: <span id="popup-keranjang-total">Rp0</span></strong>
+                </div>
+                <div class="pembayaran-section-inline" style="margin-top:10px;">
+                    <label for="popup-keranjang-nominal">Nominal Pembayaran:</label>
+                    <input type="number" id="popup-keranjang-nominal" min="0" value="0">
+                    <p>Kembalian: <span id="popup-kembalian-display">Rp0</span></p>
+                </div>
+                <!-- Nama dan alamat input akan dimasukkan lewat JS agar dinamis -->
+                <div style="margin-top:10px;text-align:right;">
+                    <button id="popup-keranjang-print" style="background:#007bff;color:#fff;border:none;padding:8px 16px;border-radius:5px;cursor:pointer;">
+                        <i class="fas fa-print"></i> Cetak Struk
+                    </button>
+                    <!-- Tombol WhatsApp akan dimasukkan lewat JS agar dinamis -->
+                </div>
             </div>
         </div>
     </div>
